@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Heart</title>
+        <style>
+            html, body {
+                height: 100%;
+                align-content: center;
+            }
+            canvas {
+                display: block;
+                margin: auto;
+            }
+            #settings {
+                text-align: center;
+                padding: 20px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="settings">
+            <label>a</label><input id = "a" type="range" min="4" max = "20" value="16" step="0.01" oninput="drawHeart()">
+            <label>b</label><input id = "b" type="range" min="0" max = "20" value="13" step="0.01" oninput="drawHeart()">
+            <label>c</label><input id = "c" type="range" min="0" max = "10" value="5" step="0.01" oninput="drawHeart()">
+            <label>d</label><input id = "d" type="range" min="0" max = "8" value="2" step="0.01" oninput="drawHeart()">
+        </div>
+        <canvas id="cnv" width="700" height="700"></canvas>
+    </body>
+    <script>
+
+        let canvas = document.querySelector("#cnv");
+        let ctx = canvas.getContext("2d");
+
+        function drawHeart() {
+            console.log("A");
+
+            var a = parseFloat(document.querySelector("#a").value);
+            var b = parseFloat(document.querySelector("#b").value);
+            var c = parseFloat(document.querySelector("#c").value);
+            var d = parseFloat(document.querySelector("#d").value);
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            ctx.beginPath();
+            for (t = 0; t <= Math.PI * 2; t += 0.01) {
+                let x = 350 + (a * Math.pow(Math.sin(t), 3)) * 16;
+                let y = 300 - (b * Math.cos(t) - c * Math.cos(2 * t) - d * Math.cos(3 * t) - Math.cos(4 * t)) * 16;
+                if (t == 0) {
+                    ctx.moveTo(x, y);
+                } else {
+                    ctx.lineTo(x, y);
+                }
+            }
+
+            const grad=ctx.createRadialGradient(150,75,150,150,75,450);
+            grad.addColorStop(0,"orange");
+            grad.addColorStop(1,"red");
+
+            ctx.fillStyle = grad;
+            ctx.fill();
+        }
+
+        drawHeart();
+
+    </script>
+</html>
